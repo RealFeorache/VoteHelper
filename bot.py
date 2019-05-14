@@ -34,7 +34,7 @@ def electiondate():
     """Prints the date of election for the host country of the user.
     Send the user to the identity() function if their identity is not known."""
     # Find out the identity of the person if it is unknown to give the answer.
-    if known is False:
+    if not known:
         identity()
     # Print the voting date based on the hostCountry
     print(f'The voting date is {votingData[hostCountry]["date"]}')
@@ -44,7 +44,7 @@ def eligibility():
     """Checks if the user is eligible to vote.
     Send the user to the identity() function if their identity is not known."""
     # Find out the identity of the person if it is unknown to give the answer.
-    if known is False:
+    if not known:
         identity()
     # TODO - Add eligibility criteria
     pass
