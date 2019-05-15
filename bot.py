@@ -2,14 +2,14 @@ class Votehelper:
 
     def __init__(self):
         # All possible Main Menu options
-        self.allOptions = {
+        self._all_options = {
             1: 'Get the EU Parliament election date.',
             2: 'Check eligibility to vote in the EU Parliament elections.',
             3: 'My identity.',
             4: 'Quit.',
             }
         # Country names and voting dates
-        self.votingData = {
+        self._voting_data = {
             'Austria':
                 {
                     'date': '26 May 2019',
@@ -156,27 +156,27 @@ class Votehelper:
         self.nationality = None
         self.host_country = None
         self.downs_syndrome = None
-        self.known = False
         self.age = ''
+        self.known = False
 
         # Initiate the bot
         self.main_menu()
 
-
     def main_menu(self):
         """The main menu, body of the bot"""
-        inmenu = True
-        while inmenu:
+        in_menu = True
+        while in_menu:
             # Print the main menu
             print("Main menu options for EU Parliament 2019 bot:")
-            for number, option in self.allOptions.items():
+            for number, option in self._all_options.items():
                 print(f'{number}) {option}')
             # Get the user choice and check if it is viable
             try:
                 choice = int(input())
             except ValueError:
                 print('Invalid choice')
-            if choice not in self.allOptions.keys():
+            # TODO - deal with the problem of being possibly unreferenced.
+            if choice not in self._all_options.keys():
                 print('Invalid choice')
             # Get down into the menu tree
             # 1 - Election date tree
@@ -210,7 +210,7 @@ class Votehelper:
         if not self.known:
             self.identity()
         # Print the voting date based on the hostCountry
-        print(f'The voting date is {self.votingData[self.host_country]["date"]}')
+        print(f'The voting date is {self._voting_data[self.host_country]["date"]}')
 
     def eligibility(self):
         """Checks if the user is eligible to vote.
@@ -218,7 +218,7 @@ class Votehelper:
         # Find out the identity of the person if it is unknown to give the answer.
         if not self.known:
             self.identity()
-        # TODO - Add eligibility criteria
+        # TODO - Add eligibility criteria.
         pass
 
     def identity(self):
@@ -229,19 +229,19 @@ class Votehelper:
             'would '
             'vote and your age.')
         # Get the nationality
-        while self.nationality not in self.votingData.keys():
+        while self.nationality not in self._voting_data.keys():
             print("Please, provide the country name of your citizenship.")
             self.nationality = input().capitalize()
             # If the nationality (country name) is not in the country list, give error.
-            if self.nationality not in self.votingData.keys():
+            if self.nationality not in self._voting_data.keys():
                 print('Country name input is incorrect.')
                 print('Would you like to get the country list? y/n')
                 if input().lower() == 'y':
-                    for country in self.votingData.keys():
+                    for country in self._voting_data.keys():
                         print(country, end=' ')
                     print()
         # Get the host country
-        while self.host_country not in self.votingData.keys():
+        while self.host_country not in self._voting_data.keys():
             # Ask if the nationality equals hostCountry to possibly make the dialogue shorter
             print('Will you be voting in the country of your citizenship? y/n')
             if input() == 'y':
@@ -251,11 +251,11 @@ class Votehelper:
             print("Please, provide the country name of the country where you would vote.")
             self.host_country = input().capitalize()
             # If the nationality (country name) is not in the country list, give error.
-            if self.host_country not in self.votingData.keys():
+            if self.host_country not in self._voting_data.keys():
                 print('Country name input is incorrect.')
                 print('Would you like to get the country list? y/n')
                 if input().lower() == 'y':
-                    for country in self.votingData.keys():
+                    for country in self._voting_data.keys():
                         print(country, end=' ')
                     print()
         # Get the age
