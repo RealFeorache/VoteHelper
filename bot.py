@@ -14,144 +14,275 @@ class Votehelper:
                 {
                     'date': '26 May 2019',
                     'age': 16
+                    'options':
+                        {
+                        'letter': True,
+                        'ambassy': True,
+                        'proxy': False,
+                        'evote': False,
+                        }
                     },
             'Belgium':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'options':
+                        {
+                        'letter': True,
+                        'ambassy': True,
+                        'proxy': True,
+                        'evote': False,
+                        }
                     },
             'Bulgaria':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'options':
+                        {
+                        'letter': False,
+                        'ambassy': True,
+                        'proxy': False,
+                        'evote': False,
+                        'onlyEU': True,
+                        }
                     },
             'Croatia':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': False,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Cyprus':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': False,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Czech Republic':
                 {
                     'date': '24-25 May 2019',
                     'age': 18
+                    'letter': False,
+                    'ambassy': False,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Denmark':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Estonia':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': True,
                     },
             'Finland':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'France':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': False,
+                    'ambassy': True,
+                    'proxy': True,
+                    'evote': False,
                     },
             'Germany':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': False,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Greece':
                 {
                     'date': '26 May 2019',
                     'age': 17
+                    'letter': False,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
+                    'onlyEU': True,
                     },
             'Hungary':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Ireland':
                 {
                     'date': '24 May 2019',
                     'age': 18
+                    'letter': False,
+                    'ambassy': False,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Italy':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': False,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
+                    'onlyEU': True,
                     },
             'Latvia':
                 {
                     'date': '25 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Lithuania':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Luxembourg':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Malta':
                 {
                     'date': '25 May 2019',
                     'age': 16
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'The Netherlands':
                 {
                     'date': '23 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Poland':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Portugal':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Romania':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Slovakia':
                 {
                     'date': '25 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Slovenia':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Spain':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'Sweden':
                 {
                     'date': '26 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             'United Kingdom':
                 {
                     'date': '23 May 2019',
                     'age': 18
+                    'letter': True,
+                    'ambassy': True,
+                    'proxy': False,
+                    'evote': False,
                     },
             }
 
+        self._voting_options = {
+            'letters': ['Belgium', 'Denmark', 'Germany', 'Estonia', 'Spain', 'Latvia', 'Lithuania', 'Luxembourg', 'Hungary', 'The Netherlands', 'Austria', 'Slovenia', 'Finland', 'Sweden', 'United Kingdom',],
+            'ambassy': ['Belgium', 'Bulgaria', 'Denmark', 'Estonia', 'Greece', 'Spain', 'France', 'Croatia', 'Italy', 'Cyprus', 'Latvia', 'Lithuania', 'Hungary', 'The Netherlands', 'Austria', 'Poland', 'Portugal', 'Romania', 'Slovenia', 'Sweden',],
+            'proxy': ['Belgium', 'France', 'The Netherlands', 'United Kingdom',],
+            'evote': ['Estonia',],
+            'withinEU': ['Bulgaria', 'Greece', 'Italy',],
+        }
         # Starting flags
         self.nationality = None
         self.host_country = None
