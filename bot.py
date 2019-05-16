@@ -5,8 +5,9 @@ class Votehelper:
         self._all_options = {
             1: 'Get the EU Parliament election date.',
             2: 'Check eligibility to vote in the EU Parliament elections.',
-            3: 'My identity.',
-            4: 'Quit.',
+            3: 'My voting options',
+            4: 'My identity.',
+            5: 'Quit.',
             }
         # Country names and voting dates
         self._voting_data = {
@@ -158,6 +159,7 @@ class Votehelper:
         self.downs_syndrome = None
         self.age = None
         self.known = False
+        self.abroad = None
 
         # Initiate the bot
         self.main_menu()
@@ -184,8 +186,11 @@ class Votehelper:
             # 2 - Eligibility choice tree
             if choice == 2:
                 self.eligibility()
-            # 3- Output the identity if known
+            # 3 - Voting options
             if choice == 3:
+                pass
+            # 4 - Output the identity if known
+            if choice == 4:
                 if not self.known:
                     print('Information not fully provided yet.')
                 else:
@@ -197,8 +202,8 @@ class Votehelper:
                         print(
                             f'Your country of nationality is {self.nationality}, you would be casting your vote for'
                             f' {self.host_country}, you age is {self.age} and you don\'t have Down\'s syndrome.')
-            # 4 - Quit choice
-            if choice == 4:
+            # 5 - Quit choice
+            if choice == 5:
                 print('Thanks for using Vote Helper!')
                 break
 
@@ -236,7 +241,8 @@ class Votehelper:
 
     def identity(self):
         """Gets the identity information of the user.
-        Gets nationality, host country, age. When all of this is receives, known variable is set to True."""
+        Gets nationality, host country, age, downs syndrome.
+        When all of this is receives, known variable is set to True."""
         while not self.known:
             print(
                 'To provide you with further information, we would need to find out your nationality, the country you '
@@ -280,10 +286,17 @@ class Votehelper:
             while self.downs_syndrome.lower() not in ['y', 'n']:
                 print('Do you have down syndrome? y/n')
                 self.downs_syndrome = input()
+            # Check if the user lives outside of EU
+            print('Do you live outside of the EU? y/n')
+            self.abroad = input().lower()
+            while self.abroad.lower() not in ['y', 'n']:
+                print('Do you live outside of the EU? y/n')
+                self.abroad = input()
             # Add flag known when the identity is provided fully.
             self.known = True
 
     def is_in_country_list(self, country_name):
+        """Checks if the inputted country is in the country list."""
         if country_name not in self._voting_data:
             print('Country name input is incorrect.')
             print('Would you like to get the country list? y/n')
@@ -292,5 +305,13 @@ class Votehelper:
                     print(country, end=', ')
                 print()
 
+    def voting_options(self):
+        """Provides the user with the voting options"""
+        if not self.known:
+            self.identity()
+        print('Your options for voting are:')
+        for options, availability in self._all_options[self.nationality]['options']:
+            if availability is True:
+                print(options, end=', ')
 
 Votehelper()
