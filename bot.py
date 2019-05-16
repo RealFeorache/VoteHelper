@@ -24,7 +24,8 @@ class Votehelper:
             'Bulgaria':
                 {
                     'date': '26 May 2019',
-                    'age': 18
+                    'age': 18,
+                    'withinEU': True
                     },
             'Croatia':
                 {
@@ -69,7 +70,8 @@ class Votehelper:
             'Greece':
                 {
                     'date': '26 May 2019',
-                    'age': 17
+                    'age': 17,
+                    'withinEU': True
                     },
             'Hungary':
                 {
@@ -84,7 +86,8 @@ class Votehelper:
             'Italy':
                 {
                     'date': '26 May 2019',
-                    'age': 18
+                    'age': 18,
+                    'withinEU': True
                     },
             'Latvia':
                 {
@@ -173,10 +176,6 @@ class Votehelper:
                 [
                     'Estonia'
                     ],
-            'withinEU':
-                [
-                    'Bulgaria', 'Greece', 'Italy'
-                    ],
             }
         # Starting flags
         self.nationality = None
@@ -263,9 +262,9 @@ class Votehelper:
         if not self.known:
             self.identity()
         # Check age eligibility and Down's syndrome eligibility
-        if self.age >= self._voting_data[self.nationality]['age'] and self.downs_syndrome == 'n':
+        if self.eligible:
             print('You are eligible to vote.')
-        else:
+        elif not self.eligible:
             print('You are not eligible to vote.')
 
     def identity(self):
@@ -327,7 +326,10 @@ class Votehelper:
                 self.downs_syndrome = input().lower()
             # Add flag known when the identity is provided fully.
             if self.age >= self._voting_data[self.nationality]['age'] and self.downs_syndrome == 'n':
-                self.eligible = True
+                if self.abroad == 'nonEU' and 'withinEU' in self._voting_data[self.nationality]:
+                    self.eligible = False
+                else:
+                    self.eligible = True
             else:
                 self.eligible = False
             self.known = True
@@ -344,9 +346,7 @@ class Votehelper:
 
     def voting_options(self):
         """Provides the user with the voting options"""
-        if not self.known:
-            self.identity()
-        if self.eligible:
+        if not self.eligible:
             print('Given that you are not eligible, you don\'t have any voting options')
         elif self.eligible:
             print('Your options for voting are:')
@@ -360,6 +360,8 @@ class Votehelper:
                 if self.nationality in country:
                     print(option.capitalize(), end=', ')
                     print('voting booth')
+        # TODO - Add being eligible and not being able to vote (Greece, Italy)
+
 
 
 Votehelper()
