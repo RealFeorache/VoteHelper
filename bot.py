@@ -176,7 +176,7 @@ class Votehelper:
                 print('Invalid choice')
             # TODO - deal with the problem of being possibly unreferenced.
             if choice not in self._all_options.keys():
-                print('Invalid choice')
+                print('Invalid choice.')
             # Get down into the menu tree
             # 1 - Election date tree
             if choice == 1:
@@ -271,9 +271,9 @@ class Votehelper:
                 try:
                     self.age = int(input())
                     if self.age not in range(0, 151):
-                        print('Age has to be between 0 and 150')
-                except:
-                    print('Age has to be between 0 and 150')
+                        print('Age has to be between 0 and 150.')
+                except ValueError:
+                    print('Age has to be a number between 0 and 150.')
             # Get the down syndrome information
             print('Do you have down syndrome? y/n')
             self.downs_syndrome = input()
