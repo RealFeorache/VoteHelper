@@ -154,12 +154,30 @@ class Votehelper:
             }
 
         self._voting_options = {
-            'letters': ['Belgium', 'Denmark', 'Germany', 'Estonia', 'Spain', 'Latvia', 'Lithuania', 'Luxembourg', 'Hungary', 'The Netherlands', 'Austria', 'Slovenia', 'Finland', 'Sweden', 'United Kingdom',],
-            'embassy': ['Belgium', 'Bulgaria', 'Denmark', 'Estonia', 'Greece', 'Spain', 'France', 'Croatia', 'Italy', 'Cyprus', 'Latvia', 'Lithuania', 'Hungary', 'The Netherlands', 'Austria', 'Poland', 'Portugal', 'Romania', 'Slovenia', 'Sweden',],
-            'proxy': ['Belgium', 'France', 'The Netherlands', 'United Kingdom',],
-            'evote': ['Estonia',],
-            'withinEU': ['Bulgaria', 'Greece', 'Italy',],
-        }
+            'letters':
+                [
+                    'Belgium', 'Denmark', 'Germany', 'Estonia', 'Spain', 'Latvia', 'Lithuania', 'Luxembourg',
+                    'Hungary', 'The Netherlands', 'Austria', 'Slovenia', 'Finland', 'Sweden', 'United Kingdom'
+                    ],
+            'embassy':
+                [
+                    'Belgium', 'Bulgaria', 'Denmark', 'Estonia', 'Greece', 'Spain', 'France', 'Croatia', 'Italy',
+                    'Cyprus', 'Latvia', 'Lithuania', 'Hungary', 'The Netherlands', 'Austria', 'Poland', 'Portugal',
+                    'Romania', 'Slovenia', 'Sweden'
+                    ],
+            'proxy':
+                [
+                    'Belgium', 'France', 'The Netherlands', 'United Kingdom'
+                    ],
+            'evote':
+                [
+                    'Estonia'
+                    ],
+            'withinEU':
+                [
+                    'Bulgaria', 'Greece', 'Italy'
+                    ],
+            }
         # Starting flags
         self.nationality = None
         self.host_country = None
@@ -167,6 +185,7 @@ class Votehelper:
         self.age = None
         self.known = False
         self.abroad = None
+        self.eligible = None
 
         # Initiate the bot
         self.main_menu()
@@ -243,8 +262,11 @@ class Votehelper:
         # Find out the identity of the person if it is unknown to give the answer.
         if not self.known:
             self.identity()
-        # TODO - Add eligibility criteria.
-        pass
+        # Check age eligibility and Down's syndrome eligibility
+        if self.age >= self._voting_data[self.nationality]['age'] and self.downs_syndrome == 'n':
+            print('You are eligible to vote.')
+        else:
+            print('You are not eligible to vote.')
 
     def identity(self):
         """Gets the identity information of the user.
@@ -276,17 +298,18 @@ class Votehelper:
                     break
                 if same_country == 'n':
                     print('Will you be voting in another EU country? y/n')
-                    #another = input().lower()
-                    #
-                     #   self.abroad = input().lower()
-                      #  while self.abroad.lower() not in ['y', 'n']:
-                       #     print('Do you live outside of the EU? y/n')
-                        #    self.abroad = input()
-                # If nationality is not the same as the host_country, do the same as in nationality.
-                print("Please, provide the country name of the country where you would vote.")
-                self.host_country = input().title()
-                # If the nationality (country name) is not in the country list, give error.
-                self.is_in_country_list(self.host_country)
+                    self.abroad = input().lower()
+                    if self.abroad == 'n':
+                        self.abroad = 'nonEU'
+                        break
+                    if self.abroad == 'y':
+                        self.abroad = 'EU'
+                        # If nationality is not the same as the host_country, do the same as in nationality.
+                        print("Please, provide the country name of the country where you would vote.")
+                        self.host_country = input().title()
+                        # If the nationality (country name) is not in the country list, give error.
+                        self.is_in_country_list(self.host_country)
+                        break
             # Get the age
             print('What will your age be at the date of voting?')
             while self.age not in range(0, 151):
@@ -298,11 +321,15 @@ class Votehelper:
                     print('Age has to be a number between 0 and 150.')
             # Get the down syndrome information
             print('Do you have down syndrome? y/n')
-            self.downs_syndrome = input()
-            while self.downs_syndrome.lower() not in ['y', 'n']:
+            self.downs_syndrome = input().lower()
+            while self.downs_syndrome not in ['y', 'n']:
                 print('Do you have down syndrome? y/n')
-                self.downs_syndrome = input()
+                self.downs_syndrome = input().lower()
             # Add flag known when the identity is provided fully.
+            if self.age >= self._voting_data[self.nationality]['age'] and self.downs_syndrome == 'n':
+                self.eligible = True
+            else:
+                self.eligible = False
             self.known = True
 
     def is_in_country_list(self, country_name):
@@ -319,10 +346,20 @@ class Votehelper:
         """Provides the user with the voting options"""
         if not self.known:
             self.identity()
-        print('Your options for voting are:')
-        if self.abroad == 'y':
-            for option, country in self._voting_options:
+        if self.eligible:
+            print('Given that you are not eligible, you don\'t have any voting options')
+        elif self.eligible:
+            print('Your options for voting are:')
+            for option, country in self._voting_options.items():
                 if self.nationality in country:
-                    print(option)
+                    print(option.capitalize(), end=', ')
+                    print()
+        elif self.eligible and self.nationality == self.host_country:
+            print('Your options for voting are:')
+            for option, country in self._voting_options.items():
+                if self.nationality in country:
+                    print(option.capitalize(), end=', ')
+                    print('voting booth')
+
 
 Votehelper()
