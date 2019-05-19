@@ -7,7 +7,8 @@ class Votehelper:
             2: 'Check eligibility to vote in the EU Parliament elections.',
             3: 'My voting options.',
             4: 'My identity.',
-            5: 'Quit.',
+            5: 'Erase my information.',
+            6: 'Quit.',
             }
         # Country names and voting dates
         self._voting_data = {
@@ -236,15 +237,15 @@ class Votehelper:
             if choice == 1:
                 self.election_date()
             # 2 - Eligibility choice tree
-            if choice == 2:
+            elif choice == 2:
                 self.eligibility()
             # 3 - Voting options
-            if choice == 3:
+            elif choice == 3:
                 self.voting_options()
             # 4 - Output the identity if known
-            if choice == 4:
+            elif choice == 4:
                 if not self.known:
-                    print('Information not fully provided yet.')
+                    print('Information not fully provided yet or has been erased.')
                 else:
                     if self.downs_syndrome:
                         print(
@@ -254,8 +255,14 @@ class Votehelper:
                         print(
                             f'Your country of nationality is {self.nationality}, you would be casting your vote for'
                             f' {self.host_country}, you age is {self.age} and you don\'t have Down\'s syndrome.')
-            # 5 - Quit choice
-            if choice == 5:
+            # 5 - Erase information
+            elif choice == 5:
+                self.EUnational = self.nationality = self.host_country = self.downs_syndrome = self.age = \
+                    self.outsideEU = self.eligible = None
+                self.known = False
+                print('All of the information has been successfully erased.')
+            # 6 - Quit choice
+            elif choice == 6:
                 print('Thanks for using Vote Helper!')
                 break
 
