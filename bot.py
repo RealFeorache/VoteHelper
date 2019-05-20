@@ -273,9 +273,9 @@ class Votehelper:
         if self.eligible:
             print('You are eligible to vote.')
         else:
-            self.ineligibility_reason('You aren\'t eligible to vote')
+            self.give_reason('You aren\'t eligible to vote')
 
-    def ineligibility_reason(self, message):
+    def give_reason(self, message):
         print(f'{message}, because ', end='')
         # Because non-EU
         if not self.EUnational:
@@ -405,7 +405,7 @@ class Votehelper:
             self.identity()
         # If not eligible, say that there are no options
         if not self.eligible:
-            self.ineligibility_reason('You don\'t have options to vote')
+            self.give_reason('You don\'t have options to vote')
         # If is eligible, lives outside of the EU, but the nationality requires to be inside of the EU,
         # give a sophisticated answer.
         elif self.eligible and self.outsideEU and self._voting_data[self.nationality]['withinEU']:
