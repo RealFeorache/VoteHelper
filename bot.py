@@ -273,30 +273,35 @@ class Votehelper:
         if self.eligible:
             print('You are eligible to vote.')
         else:
-            print(f'You are not eligible to vote, because ', end='')
-            # Because non-EU
-            while True:
-                if not self.EUnational:
-                    print('you are not an European national.')
-                    break
-                # Because of age
-                if self.outsideEU:
-                    if self.age < self._voting_data[self.nationality]['age']:
-                        print('you are not old enough.')
-                        print(f"The minimum age of voting for your choices is "
-                              f"{self._voting_data[self.nationality]['age']}.")
-                        break
+            self.ineligibility_reason('You aren\'t eligible to vote')
+
+    def ineligibility_reason(self, message):
+        print(f'{message}, because ', end='')
+        # Because non-EU
+        if not self.EUnational:
+            print('you are not an European national.')
+        else:
+            # Prepare to give two reasons
+            reasonGiven = False
+            # Because of age
+            if self.outsideEU:
+                if self.age < self._voting_data[self.nationality]['age']:
+                    print('you are not old enough.')
+                    print(f"The minimum age of voting for your choices is "
+                          f"{self._voting_data[self.nationality]['age']}.")
+                    reasonGiven = True
+            else:
+                if self.age < self._voting_data[self.host_country]['age']:
+                    print('you are not old enough.')
+                    print(f"The minimum age of voting for your choices is "
+                          f"{self._voting_data[self.host_country]['age']}.")
+                    reasonGiven = True
+            # Because of Down's syndrome
+            if self.downs_syndrome:
+                if reasonGiven:
+                    print('Also, you have down\'s syndrome.')
                 else:
-                    if self.age < self._voting_data[self.host_country]['age']:
-                        print('you are not old enough.')
-                        print(f"The minimum age of voting for your choices is "
-                              f"{self._voting_data[self.host_country]['age']}.")
-                        break
-                # Because of Down's syndrome
-                if self.downs_syndrome:
                     print('you have down\'s syndrome.')
-                    break
-        # TODO - Add reason for ineligibility
 
     def identity(self):
         """Gets the identity information of the user.
@@ -400,7 +405,7 @@ class Votehelper:
             self.identity()
         # If not eligible, say that there are no options
         if not self.eligible:
-            print('Given that you are not eligible, you don\'t have any voting options')
+            self.ineligibility_reason('You don\'t have options to vote')
         # If is eligible, lives outside of the EU, but the nationality requires to be inside of the EU,
         # give a sophisticated answer.
         elif self.eligible and self.outsideEU and self._voting_data[self.nationality]['withinEU']:
