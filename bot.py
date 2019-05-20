@@ -226,7 +226,7 @@ class Votehelper:
             # Get the user choice and check if it is viable
             try:
                 choice = int(input())
-                if choice not in self._all_options.keys():
+                if choice not in self._all_options:
                     print('Invalid choice.')
                     continue
             except ValueError:
@@ -244,17 +244,8 @@ class Votehelper:
                 self.voting_options()
             # 4 - Output the identity if known
             elif choice == 4:
-                if not self.known:
-                    print('Information not fully provided yet or has been erased.')
-                else:
-                    if self.downs_syndrome:
-                        print(
-                            f'Your country of nationality is {self.nationality}, you would be casting your vote for'
-                            f' {self.host_country}, you age is {self.age} and you have Down\'s syndrome.')
-                    elif not self.downs_syndrome:
-                        print(
-                            f'Your country of nationality is {self.nationality}, you would be casting your vote for'
-                            f' {self.host_country}, you age is {self.age} and you don\'t have Down\'s syndrome.')
+                # TODO - Add identity output.
+                pass
             # 5 - Erase information
             elif choice == 5:
                 self.EUnational = self.nationality = self.host_country = self.downs_syndrome = self.age = \
@@ -282,7 +273,29 @@ class Votehelper:
         if self.eligible:
             print('You are eligible to vote.')
         else:
-            print('You are not eligible to vote.')
+            print(f'You are not eligible to vote, because ', end='')
+            # Because non-EU
+            while True:
+                if not self.EUnational:
+                    print('you are not an European national.')
+                    break
+                # Because of age
+                if self.outsideEU:
+                    if self.age < self._voting_data[self.nationality]['age']:
+                        print('you are not old enough.')
+                        print(f"The minimum age of voting for your choices is "
+                              f"{self._voting_data[self.nationality]['age']}.")
+                        break
+                else:
+                    if self.age < self._voting_data[self.host_country]['age']:
+                        print('you are not old enough.')
+                        print(f"The minimum age of voting for your choices is "
+                              f"{self._voting_data[self.host_country]['age']}.")
+                        break
+                # Because of Down's syndrome
+                if self.downs_syndrome:
+                    print('you have down\'s syndrome.')
+                    break
         # TODO - Add reason for ineligibility
 
     def identity(self):
@@ -295,10 +308,12 @@ class Votehelper:
                 'would vote and your age.')
             # Check if is EU national
             while self.EUnational not in ['y', 'n']:
-                print('Are you a EU national? y/n')
+                print('Are you an EU national? y/n')
                 self.EUnational = input().lower()
             if self.EUnational == 'n':
                 self.eligible = False
+                self.EUnational = False
+                self.known = True
                 break
             # Get the nationality
             self.nationality = self.get_info_on_country("your nationality.")
@@ -316,7 +331,6 @@ class Votehelper:
                         self.outsideEU = input().lower()
                         if self.outsideEU == 'n':
                             self.outsideEU = True
-                            self.host_country = self.nationality
                             break
                         elif self.outsideEU == 'y':
                             self.outsideEU = False
@@ -342,10 +356,12 @@ class Votehelper:
                 self.downs_syndrome = True
             else:
                 self.downs_syndrome = False
-            # If lives outside the EU and the nationality/host requires to live inside, set as ineligible to vote
-            if self.outsideEU and self._voting_data[self.nationality]['withinEU']:
-                self.eligible = False
             # If doesn't live outside EU, check for the age requirement of the host country and the downs syndrome
+            if self.outsideEU:
+                if self.age >= self._voting_data[self.nationality]['age'] and not self.downs_syndrome:
+                    self.eligible = True
+                else:
+                    self.eligible = False
             else:
                 if self.age >= self._voting_data[self.host_country]['age'] and not self.downs_syndrome:
                     self.eligible = True
@@ -359,7 +375,7 @@ class Votehelper:
         while country not in self._voting_data:
             print(f"Please, provide the {message}")
             country = input().title()
-            # If the nationality (country name) is not in the country list, give error.
+            # If the country name is not in the country list, give error.
             self.is_in_country_list(country)
         return country
 
@@ -382,20 +398,36 @@ class Votehelper:
         # Get identity if the user is not known
         if not self.known:
             self.identity()
+        # If not eligible, say that there are no options
         if not self.eligible:
             print('Given that you are not eligible, you don\'t have any voting options')
+        # If is eligible, lives outside of the EU, but the nationality requires to be inside of the EU,
+        # give a sophisticated answer.
+        elif self.eligible and self.outsideEU and self._voting_data[self.nationality]['withinEU']:
+            print('You need to be inside of the EU, as you don\'t have any options outside of the EU.')
+            print('If you were to be in the EU, in your home country, you could vote in the voting booth.')
+            print('If you were to be in the EU, in not your home country, you could vote in the following ways:')
+            self.print_voting_options()
+        # If eligible and within the EU send into the self.print_voting_options()
         else:
             print('Your options for voting are:')
             # Get all the options for country and print them.
+            self.print_voting_options()
+
+    def print_voting_options(self):
+        """Print all the voting options based on self.host_country and self.nationality"""
+        # If lives in his home country, say that the user can use a voting booth
+        if self.host_country == self.nationality:
+            print('Voting booth.')
+        # If doesn't live in his home country, give out different options.
+        else:
             for option, country in self._voting_options.items():
                 if self.nationality in country:
                     print(option.capitalize(), end=', ')
                     # If the user is a national and lives within EU, also add the voting booth option.
-                    # TODO - Check if this is correct
                     if not self.outsideEU:
-                        print('Voting booth.')
-
-        # TODO - Add being eligible and not being able to vote (Greece, Italy)
+                        print('Voting booth.', end='')
+                    print()
 
 
 Votehelper()
