@@ -276,32 +276,29 @@ class Votehelper:
             self.give_reason('You aren\'t eligible to vote')
 
     def give_reason(self, message):
-        print(f'{message}, because ', end='')
+        print(f'{message}, because:')
         # Because non-EU
         if not self.EUnational:
-            print('you are not an European national.')
+            print('1. You are not an European national.')
         else:
-            # Prepare to give two reasons
-            reasonGiven = False
+            # Prepare to give multiple reasons
+            reasonCounter = 1
             # Because of age
             if self.outsideEU:
                 if self.age < self._voting_data[self.nationality]['age']:
-                    print('you are not old enough.')
-                    print(f"The minimum age of voting for your choices is "
+                    print(f'{reasonCounter}. You are not old enough.')
+                    print(f"Note: The minimum age of voting for your choices is "
                           f"{self._voting_data[self.nationality]['age']}.")
-                    reasonGiven = True
+                    reasonCounter += 1
             else:
                 if self.age < self._voting_data[self.host_country]['age']:
-                    print('you are not old enough.')
-                    print(f"The minimum age of voting for your choices is "
+                    print(f'{reasonCounter}. You are not old enough.')
+                    print(f"Note: The minimum age of voting for your choices is "
                           f"{self._voting_data[self.host_country]['age']}.")
-                    reasonGiven = True
+                    reasonCounter += 1
             # Because of Down's syndrome
             if self.downs_syndrome:
-                if reasonGiven:
-                    print('Also, you have down\'s syndrome.')
-                else:
-                    print('you have down\'s syndrome.')
+                print(f'{reasonCounter}. You have down\'s syndrome.')
 
     def identity(self):
         """Gets the identity information of the user.
