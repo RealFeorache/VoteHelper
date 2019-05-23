@@ -1,5 +1,3 @@
-import random
-
 import discord
 
 
@@ -208,14 +206,13 @@ async def on_message(message):
 
     # Welcome the user if needed.
     if message.content.startswith('!hello'):
-        await message.channel.send(f'I heard you, {message.author.display_name}!')
+        await message.channel.send(f"I heard you, {message.author.display_name}, I'm here!")
 
-    # Coinflip
-    if message.content.startswith('!coinflip'):
-        if random.randint(0, 1) == 0:
-            await message.channel.send('Heads!')
-        else:
-            await message.channel.send('Tails!')
+    # Help command for the bot (instructions)
+    if message.content.startswith('!help'):
+        # TODO - Add a proper !help command
+        advice = ("XXXXXXXXXX")
+        await message.channel.send(advice)
 
     # Eligibility + Options command
     if message.content.startswith('!elections'):
@@ -224,16 +221,12 @@ async def on_message(message):
         # Create variables based on user parameters. Titles for country names and lower for downs status
         nationality, hostcountry = userinput[0].title(), userinput[1].title()
         agestr, downs = userinput[2], userinput[3].lower()
-        # Create an advice that will be repeated multiple times
-        advice = ('Please use the following command structure:\n'
-                  '!elections y/n Citizenship Host-Country Age y/n')
         # Start the identity check, create False variables for future to avoid unassignment.
         ageEligible, downsEligible, EUeligible = False, False, False
         # Check if the user has gives enough parameters for the command
         if len(userinput) != 4:
-            await message.channel.send(f"To use the elections module, you need to provide the following information: \n"
-                                       f"Nationality, Host Country, Age, Down's Syndrome Presence.\n"
-                                       f"{advice}")
+            await message.channel.send(
+                "The input is incorrect. Please use !help to get the information on how to use the bot.")
         # If enough variables are given, start the identity check
         else:
             try:
@@ -255,6 +248,7 @@ async def on_message(message):
                 # Check if the age is in the range of 0 and 150
                 if age in range(0, 151):
                     # If the age in range, check if the age is higher than required by the nationality
+                    # TODO - Need to fix error when nationality given is not in the dictiory, like Russia.
                     if age >= voting_data[nationality]['age']:
                         ageEligible = True
                 else:
@@ -266,10 +260,12 @@ async def on_message(message):
                 elif downs in ['n', 'no']:
                     downsEligible = True
                 else:
-                    await message.channel.send(advice)
+                    await message.channel.send("The input for the Down's syndrome is incorrect. Please use !help.")
             # If the age is not a number, say that to the user
             except ValueError:
-                await message.channel.send(f'Age has to be a number between 0 and 150. \n{advice}')
+                await message.channel.send(
+                    'Age has to be a number between 0 and 150. If you are not sure of how to use the bot, '
+                    'please use !help.')
         # Provide options if the user is eligible
         if ageEligible and downsEligible and EUeligible:
             await message.channel.send('You are eligible to vote, here are your options:')
