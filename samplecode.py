@@ -259,20 +259,20 @@ async def on_message(message):
                         ageEligible = True
                 else:
                     # If age not in range of 0 and 150, print below
-                    await  message.channel.send('Age has to be a number between 0 and 150.')
+                    await message.channel.send('Age has to be a number between 0 and 150.')
                 # Check the down's syndrome status
                 if downs in ['y', 'yes']:
                     downsEligible = False
                 elif downs in ['n', 'no']:
                     downsEligible = True
                 else:
-                    await  message.channel.send(advice)
+                    await message.channel.send(advice)
             # If the age is not a number, say that to the user
             except ValueError:
                 await message.channel.send(f'Age has to be a number between 0 and 150. \n{advice}')
         # Provide options if the user is eligible
         if ageEligible and downsEligible and EUeligible:
-            await  message.channel.send('You are eligible to vote, here are your options:')
+            await message.channel.send('You are eligible to vote, here are your options:')
             # If in the your country
             if hostcountry == nationality:
                 if nationality in voting_options['letters']:
@@ -281,6 +281,9 @@ async def on_message(message):
                     await message.channel.send('Voting booth.')
             # If user lives in a country other than the nationality
             else:
+                if hostcountry not in voting_data and voting_data[nationality]['withinEU']:
+                    await message.channel.send(
+                        'These would be your options if you lived in a EU country other than your home country.')
                 for option, country in voting_options.items():
                     if nationality in country:
                         await message.channel.send(option.title())
