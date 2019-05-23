@@ -1,3 +1,5 @@
+TOKEN = 'NTgxMTM2MjEwMTY0OTczNTgx.XOa3bg.ho7aMEIDEL2gHCHWvRgwOuumbRQ'
+
 class Votehelper:
 
     def __init__(self):
@@ -432,4 +434,5 @@ class Votehelper:
                     print()
 
 
-Votehelper()
+if __name__ == '__main__':
+    DVotehelper()
