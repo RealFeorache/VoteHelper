@@ -249,7 +249,9 @@ async def on_message(message):
                     EUeligible = True
                 if hostcountry not in voting_data and voting_data[nationality]['withinEU']:
                     # TODO - Add eligible without options
-                    await message.channel.send('Given your nationality, you are only allowed to vote inside the EU.')
+                    await message.channel.send(
+                        'Given your information, you are eligible to vote, but you have no options to vote if you '
+                        'reside outside of the EU.')
                 # Check if the age is in the range of 0 and 150
                 if age in range(0, 151):
                     # If the age in range, check if the age is higher than required by the nationality
@@ -270,7 +272,7 @@ async def on_message(message):
                 await message.channel.send(f'Age has to be a number between 0 and 150. \n{advice}')
         # Provide options if the user is eligible
         if ageEligible and downsEligible and EUeligible:
-            await  message.channel.send('You are eligible to vote, here are your options: ')
+            await  message.channel.send('You are eligible to vote, here are your options:')
             # If in the your country
             if hostcountry == nationality:
                 if nationality in voting_options['letters']:
