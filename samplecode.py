@@ -247,8 +247,8 @@ async def on_message(message):
                     EUeligible = False
                 else:
                     EUeligible = True
+                # TODO - Need to fix error when nationality given is not in the dictiory, like Russia.
                 if hostcountry not in voting_data and voting_data[nationality]['withinEU']:
-                    # TODO - Add eligible without options
                     await message.channel.send(
                         'Given your information, you are eligible to vote, but you have no options to vote if you '
                         'reside outside of the EU.')
