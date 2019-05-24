@@ -216,6 +216,7 @@ async def on_message(message):
 
     # Eligibility + Options command
     if message.content.startswith('!elections'):
+        # TODO - Solve problem when the country name has two words (two parameters are created)
         # Create a list from user input, exclude the !elections, as it is not needed further
         userinput = message.content.split()[1:]
         # Create variables based on user parameters. Titles for country names and lower for downs status
