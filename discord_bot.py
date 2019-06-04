@@ -206,7 +206,9 @@ async def on_message(message):
 
     # Welcome the user if needed.
     elif message.content.startswith('!hello'):
-        await message.channel.send(f"I heard you, {message.author.display_name}, I'm here!")
+        await message.channel.send(
+            f"I heard you, {message.author.display_name}, I'm here! Use !help to understand how to use me to the "
+            f"fullest!.")
 
     # Help command for the bot (instructions)
     elif message.content.startswith('!help'):
