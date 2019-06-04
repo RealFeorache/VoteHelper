@@ -289,11 +289,11 @@ async def on_message(message):
                     await message.channel.send(
                         'Given your information, you have no options to vote if you reside outside of the EU. These '
                         'would be your options if you lived in a EU country other than your home country.')
-                optioncounter = 1
+                option_counter = 1
                 for option, country in voting_options.items():
                     if nationality in country:
-                        await message.channel.send(f'#{optioncounter} - {option.title()}.')
-                        optioncounter += 1
+                        await message.channel.send(f'#{option_counter} - {option.title()}.')
+                        option_counter += 1
         # If not passed the eligibility, exit.
         else:
             if correct_input:
