@@ -211,59 +211,60 @@ async def on_message(message):
     # Help command for the bot (instructions)
     elif message.content.startswith('!help'):
         # TODO - Add a proper !help command
-        advice = ("XXXXXXXXXX")
+        advice = "XXXXXXXXXX"
         await message.channel.send(advice)
 
     # Eligibility + Options command
     elif message.content.startswith('!elections'):
         # Create a list from user input, exclude the !elections, as it is not needed further
         # TODO - Solve problem when the country name has two words (two parameters are created)
-        userinput = message.content.split()[1:]
+        user_input = message.content.split()[1:]
         # Start the identity check, create False variables for future to avoid unassignment.
-        ageEligible = downsEligible = EUeligible = correctinput = False
+        age_eligible = downs_eligible = eu_eligible = correct_input = False
         # Check if the user has gives enough parameters for the command
-        if len(userinput) != 4:
+        if len(user_input) != 4:
             await message.channel.send(
                 "The input is incorrect. Please use !help to get the information on how to use the bot.")
         # If enough variables are given, start the identity check
         else:
-            reasoncounter = 1
-            correctinput = True
+            reason_counter = 1
+            correct_input = True
             # Create variables based on user parameters. Titles for country names and lower for downs status
-            nationality, hostcountry, agestr, downs = [info.title() for info in userinput]
+            nationality, host_country, agestr, downs = [info.title() for info in user_input]
             try:
                 # Check if the age is a number
                 age = int(agestr)
                 # Check if the nationality is in the list of EU countries
                 if nationality not in voting_data:
-                    await message.channel.send(f'#{reasoncounter} You are not an EU national.')
-                    reasoncounter += 1
+                    await message.channel.send(f'#{reason_counter} You are not an EU national.')
+                    reason_counter += 1
                 else:
-                    EUeligible = True
+                    eu_eligible = True
                 # Check if the age is in the range of 0 and 150
                 if age in range(0, 151):
                     # If the age in range, check if the age is higher than required by the nationality
-                    if EUeligible:
+                    if eu_eligible:
                         if age >= voting_data[nationality]['age']:
-                            ageEligible = True
+                            age_eligible = True
                         else:
-                            await message.channel.send(f'#{reasoncounter} You are not eligible by age.')
-                            reasoncounter += 1
+                            await message.channel.send(f'#{reason_counter} You are not eligible by age.')
+                            reason_counter += 1
                     else:
                         await message.channel.send(
-                            f'#{reasoncounter} It is unknown if you are eligible by age as you are not an EU national.')
-                        reasoncounter += 1
+                            f'#{reason_counter} It is unknown if you are eligible by age as you are not an EU '
+                            f'national.')
+                        reason_counter += 1
                 else:
                     # If age not in range of 0 and 150, print below
                     await message.channel.send(
-                        f'#{reasoncounter} Your age is outside the bounds of possibilities (0-150).')
-                    reasoncounter += 1
+                        f'#{reason_counter} Your age is outside the bounds of possibilities (0-150).')
+                    reason_counter += 1
                 # Check the down's syndrome status
                 if downs in ['N', 'NO']:
-                    downsEligible = True
+                    downs_eligible = True
                 elif downs in ['Y', 'YES']:
-                    await message.channel.send(f"#{reasoncounter} You have Down's syndrome.")
-                    reasoncounter += 1
+                    await message.channel.send(f"#{reason_counter} You have Down's syndrome.")
+                    reason_counter += 1
                 else:
                     await message.channel.send("The input for the Down's syndrome is incorrect. Please use !help.")
             # If the age is not a number, say that to the user
@@ -272,17 +273,17 @@ async def on_message(message):
                     'Age has to be a number between 0 and 150. If you are not sure of how to use the bot, '
                     'please use !help.')
         # Provide options if the user is eligible
-        if ageEligible and downsEligible and EUeligible:
+        if age_eligible and downs_eligible and eu_eligible:
             await message.channel.send('You are eligible to vote, here are your options:')
             # If in the your country
-            if hostcountry == nationality:
+            if host_country == nationality:
                 if nationality in voting_options['letters']:
                     await message.channel.send('Voting booth and letter.')
                 else:
                     await message.channel.send('Voting booth.')
             # If user lives in a country other than the nationality
             else:
-                if hostcountry not in voting_data and voting_data[nationality]['withinEU']:
+                if host_country not in voting_data and voting_data[nationality]['withinEU']:
                     await message.channel.send(
                         'Given your information, you have no options to vote if you reside outside of the EU. These '
                         'would be your options if you lived in a EU country other than your home country.')
@@ -293,7 +294,7 @@ async def on_message(message):
                         optioncounter += 1
         # If not passed the eligibility, exit.
         else:
-            if correctinput:
+            if correct_input:
                 await message.channel.send('Sorry, you are not eligible to vote due the reasons above.')
 
     # Elections date command
