@@ -116,7 +116,7 @@ voting_data = {
             'age': 16,
             'withinEU': False
             },
-    'The Netherlands':
+    'Netherlands':
         {
             'date': '23 May 2019',
             'age': 18,
@@ -175,17 +175,17 @@ voting_options = {
     'letters':
         [
             'Belgium', 'Denmark', 'Germany', 'Estonia', 'Spain', 'Latvia', 'Lithuania', 'Luxembourg',
-            'Hungary', 'The Netherlands', 'Austria', 'Slovenia', 'Finland', 'Sweden', 'United Kingdom'
+            'Hungary', 'Netherlands', 'Austria', 'Slovenia', 'Finland', 'Sweden', 'United Kingdom'
             ],
     'embassy':
         [
             'Belgium', 'Bulgaria', 'Denmark', 'Estonia', 'Greece', 'Spain', 'France', 'Croatia', 'Italy',
-            'Cyprus', 'Latvia', 'Lithuania', 'Hungary', 'The Netherlands', 'Austria', 'Poland', 'Portugal',
+            'Cyprus', 'Latvia', 'Lithuania', 'Hungary', 'Netherlands', 'Austria', 'Poland', 'Portugal',
             'Romania', 'Slovenia', 'Sweden'
             ],
     'proxy':
         [
-            'Belgium', 'France', 'The Netherlands', 'United Kingdom'
+            'Belgium', 'France', 'Netherlands', 'United Kingdom'
             ],
     'evote':
         [
