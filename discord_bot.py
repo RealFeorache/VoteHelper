@@ -172,22 +172,22 @@ voting_data = {
             },
     }
 voting_options = {
-    'letters':
+    'Letters':
         [
             'Belgium', 'Denmark', 'Germany', 'Estonia', 'Spain', 'Latvia', 'Lithuania', 'Luxembourg',
             'Hungary', 'Netherlands', 'Austria', 'Slovenia', 'Finland', 'Sweden', 'United Kingdom'
             ],
-    'embassy':
+    'Embassy':
         [
             'Belgium', 'Bulgaria', 'Denmark', 'Estonia', 'Greece', 'Spain', 'France', 'Croatia', 'Italy',
             'Cyprus', 'Latvia', 'Lithuania', 'Hungary', 'Netherlands', 'Austria', 'Poland', 'Portugal',
             'Romania', 'Slovenia', 'Sweden'
             ],
-    'proxy':
+    'Proxy':
         [
             'Belgium', 'France', 'Netherlands', 'United Kingdom'
             ],
-    'evote':
+    'E-vote':
         [
             'Estonia'
             ],
@@ -264,6 +264,7 @@ async def on_message(message):
                             f'national.')
                         reason_counter += 1
                 else:
+                    correct_input = False
                     # If age not in range of 0 and 150, print below
                     await message.channel.send(
                         f'#{reason_counter} Your age is outside the bounds of possibilities (0-150).')
@@ -279,18 +280,17 @@ async def on_message(message):
             # If the age is not a number, say that to the user
             except ValueError:
                 await message.channel.send(
-                    'Age has to be a number between 0 and 150. If you are not sure of how to use the bot, '
-                    'please use !help.')
+                    'Age has to be a number between 0 and 150.\n '
+                    'If you are not sure of how to use the bot, please use !help.')
         # Provide options if the user is eligible
         if age_eligible and downs_eligible and eu_eligible:
             await message.channel.send('You are eligible to vote, here are your options:')
             # If in the your country
             if host_country == nationality:
-                if nationality in voting_options['letters']:
-                    await message.channel.send('#1 - Voting booth.\n'
-                                               '#2 - Letter.')
-                else:
-                    await message.channel.send('#1 - Voting booth.')
+                await message.channel.send('#1 - Voting booth.')
+                if nationality in voting_options['Letters']:
+                    await message.channel.send('#2 - Letter.')
+
             # If user lives in a country other than the nationality
             else:
                 if host_country in voting_data:
@@ -304,21 +304,19 @@ async def on_message(message):
                 option_counter = 1
                 for option, country in voting_options.items():
                     if nationality in country:
-                        await message.channel.send(f'#{option_counter} - {option.title()}.')
+                        await message.channel.send(f'#{option_counter} - {option}.')
                         option_counter += 1
             if host_country in voting_data:
                 if host_country in ['Belgium', 'Bulgaria', 'Cyprus', 'Greece', 'Luxembourg']:
                     await message.channel.send(
                         'Please, notice that you are obliged to vote by law and abstention from voting is punishable '
-                        'by '
-                        'law.\n'
+                        'by law.\n'
                         'https://www.idea.int/data-tools/data/voter-turnout/compulsory-voting')
             else:
                 if nationality in ['Belgium', 'Bulgaria', 'Cyprus', 'Greece', 'Luxembourg']:
                     await message.channel.send(
                         'Please, notice that you are obliged to vote by law and abstention from voting is punishable '
-                        'by '
-                        'law.\n'
+                        'by law.\n'
                         'https://www.idea.int/data-tools/data/voter-turnout/compulsory-voting')
         # If not passed the eligibility, exit.
         else:
