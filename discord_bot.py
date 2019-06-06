@@ -306,11 +306,20 @@ async def on_message(message):
                     if nationality in country:
                         await message.channel.send(f'#{option_counter} - {option.title()}.')
                         option_counter += 1
-            if host_country in ['Belgium', 'Bulgaria', 'Cyprus', 'Greece', 'Luxembourg']:
-                await message.channel.send(
-                    'Please, notice that you are obliged to vote by law and abstention from voting is punishable by '
-                    'law.\n'
-                    'https://www.idea.int/data-tools/data/voter-turnout/compulsory-voting')
+            if host_country in voting_data:
+                if host_country in ['Belgium', 'Bulgaria', 'Cyprus', 'Greece', 'Luxembourg']:
+                    await message.channel.send(
+                        'Please, notice that you are obliged to vote by law and abstention from voting is punishable '
+                        'by '
+                        'law.\n'
+                        'https://www.idea.int/data-tools/data/voter-turnout/compulsory-voting')
+            else:
+                if nationality in ['Belgium', 'Bulgaria', 'Cyprus', 'Greece', 'Luxembourg']:
+                    await message.channel.send(
+                        'Please, notice that you are obliged to vote by law and abstention from voting is punishable '
+                        'by '
+                        'law.\n'
+                        'https://www.idea.int/data-tools/data/voter-turnout/compulsory-voting')
         # If not passed the eligibility, exit.
         else:
             if correct_input:
