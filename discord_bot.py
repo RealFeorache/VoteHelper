@@ -217,7 +217,7 @@ async def on_message(message):
         await message.channel.send(advice)
 
     # Eligibility + Options command
-    elif message.content.startswith('!elections'):
+    elif message.content.lower().startswith('!elections'):
         # Create a list from user input, exclude the !elections, as it is not needed further
         # TODO - Solve problem when the country name has two words (two parameters are created)
         user_input = message.content.split()[1:]
@@ -262,9 +262,9 @@ async def on_message(message):
                         f'#{reason_counter} Your age is outside the bounds of possibilities (0-150).')
                     reason_counter += 1
                 # Check the down's syndrome status
-                if downs in ['N', 'NO']:
+                if downs in ['N', 'No']:
                     downs_eligible = True
-                elif downs in ['Y', 'YES']:
+                elif downs in ['Y', 'Yes']:
                     await message.channel.send(f"#{reason_counter} You have Down's syndrome.")
                     reason_counter += 1
                 else:
@@ -280,11 +280,16 @@ async def on_message(message):
             # If in the your country
             if host_country == nationality:
                 if nationality in voting_options['letters']:
-                    await message.channel.send('Voting booth and letter.')
+                    await message.channel.send('#1 - Voting booth.\n'
+                                               '#2 - Letter.')
                 else:
-                    await message.channel.send('Voting booth.')
+                    await message.channel.send('#1 - Voting booth.')
             # If user lives in a country other than the nationality
             else:
+                if host_country in voting_data:
+                    await message.channel.send(
+                        'Given that you reside in a country, different from your country of nationality, '
+                        'you can either for the elections in your country or the elections in the host country.')
                 if host_country not in voting_data and voting_data[nationality]['withinEU']:
                     await message.channel.send(
                         'Given your information, you have no options to vote if you reside outside of the EU. These '
@@ -294,6 +299,11 @@ async def on_message(message):
                     if nationality in country:
                         await message.channel.send(f'#{option_counter} - {option.title()}.')
                         option_counter += 1
+            if host_country in ['Belgium', 'Bulgaria', 'Cyprus', 'Greece', 'Luxembourg']:
+                await message.channel.send(
+                    'Please, notice that you are obliged to vote by law and abstention from voting is punishable by '
+                    'law.\n'
+                    'https://www.idea.int/data-tools/data/voter-turnout/compulsory-voting')
         # If not passed the eligibility, exit.
         else:
             if correct_input:
