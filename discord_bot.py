@@ -249,7 +249,14 @@ async def on_message(message):
                         if age >= voting_data[nationality]['age']:
                             age_eligible = True
                         else:
-                            await message.channel.send(f'#{reason_counter} You are not eligible by age.')
+                            if host_country in voting_data:
+                                await message.channel.send(
+                                    f"#{reason_counter} You are not eligible by age. The voting age for your host "
+                                    f"country is {voting_data[host_country]['age']}.")
+                            else:
+                                await message.channel.send(
+                                    f"#{reason_counter} You are not eligible by age. The voting age for your "
+                                    f"nationality is {voting_data[nationality]['age']}.")
                             reason_counter += 1
                     else:
                         await message.channel.send(
